@@ -1,0 +1,54 @@
+SQL> SET PAGESIZE 180
+SQL> SET LINESIZE 200
+SQL> SELECT *
+  2  FROM PROFESOR;
+
+       DNI P                                                                   CAR CAT                                                                                                                  
+---------- ------------------------------------------------------------ ---------- -----                                                                                                                
+      4040 Carmelo                                                               7 TU                                                                                                                   
+      1111 Juan                                                                  6 CU                                                                                                                   
+      2222 Carlos                                                                7 TU                                                                                                                   
+      3333 Pedro                                                                 4 TEU                                                                                                                  
+      4444 Maria                                                                 7 TU                                                                                                                   
+      5555 Ivan                                                                  1 CEU                                                                                                                  
+      6666 Carmen                                                                3 CD                                                                                                                   
+      7777 Mario                                                                 2 TU                                                                                                                   
+      8888 Francisco                                                             5 TU                                                                                                                   
+      9999 Angela                                                                8 TEU                                                                                                                  
+      1010 David                                                                 4 TU                                                                                                                   
+      2020 Soledad                                                               7 CU                                                                                                                   
+      3030 Jose Manuel                                                           6 TEU                                                                                                                  
+
+13 rows selected.
+
+SQL> INSERT INTO PROFESOR
+  2  VALUES(5050,'Carina',8,'CEU');
+INSERT INTO PROFESOR
+*
+ERROR at line 1:
+ORA-00001: unique constraint (ALU0100958379.SYS_C0017954) violated 
+
+
+SQL> SELECT *
+  2  FROM PROFESOR;
+
+       DNI P                                                                   CAR CAT                                                                                                                  
+---------- ------------------------------------------------------------ ---------- -----                                                                                                                
+      4040 Carmelo                                                               7 TU                                                                                                                   
+      5050 Carina                                                                8 CEU                                                                                                                  
+      1111 Juan                                                                  6 CU                                                                                                                   
+      2222 Carlos                                                                7 TU                                                                                                                   
+      3333 Pedro                                                                 4 TEU                                                                                                                  
+      4444 Maria                                                                 7 TU                                                                                                                   
+      5555 Ivan                                                                  1 CEU                                                                                                                  
+      6666 Carmen                                                                3 CD                                                                                                                   
+      7777 Mario                                                                 2 TU                                                                                                                   
+      8888 Francisco                                                             5 TU                                                                                                                   
+      9999 Angela                                                                8 TEU                                                                                                                  
+      1010 David                                                                 4 TU                                                                                                                   
+      2020 Soledad                                                               7 CU                                                                                                                   
+      3030 Jose Manuel                                                           6 TEU                                                                                                                  
+
+14 rows selected.
+
+SQL> SPOOL OFF
