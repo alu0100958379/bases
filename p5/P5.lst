@@ -1,0 +1,747 @@
+SQL> SET PAGESIZE 180
+SQL> SET LINESIZE 200
+SQL> SELECT A
+  2  FROM ASIGNATURA NATURAL JOIN AREA
+  3  WHERE AR LIKE 'A%';
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Algebra                                                                                                                                                                                                 
+Analisis completo                                                                                                                                                                                       
+Astronomia                                                                                                                                                                                              
+
+SQL> SELECT A
+  2  FROM ASIGNATURA NATURAL JOIN AREA
+  3  WHERE AR LIKE '%A';
+
+no rows selected
+
+SQL> SELECT A
+  2  FROM ASIGNATURA NATURAL JOIN AREA
+  3  WHERE AR LIKE '%a';
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Algebra                                                                                                                                                                                                 
+Astronomia                                                                                                                                                                                              
+Ensenanza de la matematica                                                                                                                                                                              
+Optimizacion                                                                                                                                                                                            
+Calculo                                                                                                                                                                                                 
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE A LIKE '%DATOS%';
+
+no rows selected
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE A LIKE '%datos%';
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Bases de datos                                                                                                                                                                                          
+Almacenes de datos                                                                                                                                                                                      
+Mineria de datos                                                                                                                                                                                        
+
+SQL> SELECT DNI
+  2  FROM PROFESOR
+  3  WHERE P LIKE '__r%';
+
+       DNI                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2222                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      6666                                                                                                                                                                                              
+      7777                                                                                                                                                                                              
+
+SQL> SELECT * FROM PROFESOR;
+
+       DNI P                                                                   CAR CAT                                                                                                                  
+---------- ------------------------------------------------------------ ---------- -----                                                                                                                
+      1111 Juan                                                                  6 CU                                                                                                                   
+      2222 Carlos                                                                7 TU                                                                                                                   
+      3333 Pedro                                                                 4 TEU                                                                                                                  
+      4444 Maria                                                                 7 TU                                                                                                                   
+      5555 Ivan                                                                  1 CEU                                                                                                                  
+      6666 Carmen                                                                3 CD                                                                                                                   
+      7777 Mario                                                                 2 TU                                                                                                                   
+      8888 Francisco                                                             5 TU                                                                                                                   
+      9999 Angela                                                                8 TEU                                                                                                                  
+      1010 David                                                                 4 TU                                                                                                                   
+      2020 Soledad                                                               7 CU                                                                                                                   
+      3030 Jose Manuel                                                           6 TEU                                                                                                                  
+
+12 rows selected.
+
+SQL> SELECT UNIQUE DNI
+  2  FROM PROFESOR
+  3  WHERE LENGHT(P) <= 5;
+WHERE LENGHT(P) <= 5
+      *
+ERROR at line 3:
+ORA-00904: "LENGHT": invalid identifier 
+
+
+SQL> SELECT UNIQUE DNI
+  2  FROM PROFESOR
+  3  WHERE LENGTH(P) <= 5;
+
+       DNI                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      1111                                                                                                                                                                                              
+      3333                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      5555                                                                                                                                                                                              
+      7777                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+
+6 rows selected.
+
+SQL> SELECT UNIQUE DNI
+  2  FROM PROFESOR
+  3  WHERE LENGTH(P) >= 5;
+
+       DNI                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      2222                                                                                                                                                                                              
+      3333                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      6666                                                                                                                                                                                              
+      7777                                                                                                                                                                                              
+      8888                                                                                                                                                                                              
+      9999                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+      2020                                                                                                                                                                                              
+      3030                                                                                                                                                                                              
+
+10 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+David                                                                                                                                                                                                   
+Juan                                                                                                                                                                                                    
+Soledad                                                                                                                                                                                                 
+Carlos                                                                                                                                                                                                  
+Jose Manuel                                                                                                                                                                                             
+Pedro                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Ivan                                                                                                                                                                                                    
+Mario                                                                                                                                                                                                   
+Francisco                                                                                                                                                                                               
+Angela                                                                                                                                                                                                  
+
+12 rows selected.
+
+SQL> SELECT UNIQUE P
+  2  FROM PROFESOR NATURAL JOIN PLAN_dOCENTE
+  3  WHERE FF IS NULL;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Jose Manuel                                                                                                                                                                                             
+Maria                                                                                                                                                                                                   
+Francisco                                                                                                                                                                                               
+Soledad                                                                                                                                                                                                 
+Pedro                                                                                                                                                                                                   
+Ivan                                                                                                                                                                                                    
+Angela                                                                                                                                                                                                  
+David                                                                                                                                                                                                   
+Juan                                                                                                                                                                                                    
+Carlos                                                                                                                                                                                                  
+Mario                                                                                                                                                                                                   
+
+11 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE CAS = 8;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Juan                                                                                                                                                                                                    
+Juan                                                                                                                                                                                                    
+Jose Manuel                                                                                                                                                                                             
+
+SQL> SELECT *
+  2  FROM PLAN DOCENTE
+  3  ORDER BY FF ASC;
+FROM PLAN DOCENTE
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT *
+  2  FROM PLAN_DOCENTE
+  3  ORDER BY FF ASC;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                                                                                                     
+---------- ---------- ---------- ---------- ---------- --------- ---------                                                                                                                              
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07                                                                                                                              
+      1010          2        1.5        1.5          3 01-SEP-06 31-AUG-07                                                                                                                              
+      3333          2        1.5        1.5          3 01-SEP-05 31-AUG-08                                                                                                                              
+      1010          9          3          0          3 01-SEP-08 31-AUG-09                                                                                                                              
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09                                                                                                                              
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10                                                                                                                              
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11                                                                                                                              
+      2020          3        1.5          0        1.5 01-SEP-08                                                                                                                                        
+      7777         12        4.5          3          0 01-SEP-10                                                                                                                                        
+      3333          9        1.5          0        1.5 01-SEP-09                                                                                                                                        
+      4444          1          3        1.5        1.5 01-SEP-11                                                                                                                                        
+      9999          7          3          3          0 01-SEP-10                                                                                                                                        
+      1010          9        1.5          0        1.5 01-SEP-09                                                                                                                                        
+      1111          8          3          0          0 01-SEP-09                                                                                                                                        
+      3030          8          0        1.5        1.5 01-SEP-09                                                                                                                                        
+      2222          4        1.5          0        1.5 01-SEP-09                                                                                                                                        
+      5555          6          3          3          0 31-MAR-10                                                                                                                                        
+      8888         11          6          0          0 01-SEP-09                                                                                                                                        
+      4444          5          3          0          0 01-SEP-10                                                                                                                                        
+
+19 rows selected.
+
+SQL> SELECT *
+  2  FROM PLAN_DOCENTE
+  3  ORDER BY FF DESC;
+
+       DNI        CAS        CTA        CPA        CLA FI        FF                                                                                                                                     
+---------- ---------- ---------- ---------- ---------- --------- ---------                                                                                                                              
+      1111          8          3          0          0 01-SEP-09                                                                                                                                        
+      3030          8          0        1.5        1.5 01-SEP-09                                                                                                                                        
+      1010          9        1.5          0        1.5 01-SEP-09                                                                                                                                        
+      9999          7          3          3          0 01-SEP-10                                                                                                                                        
+      5555          6          3          3          0 31-MAR-10                                                                                                                                        
+      8888         11          6          0          0 01-SEP-09                                                                                                                                        
+      4444          5          3          0          0 01-SEP-10                                                                                                                                        
+      2222          4        1.5          0        1.5 01-SEP-09                                                                                                                                        
+      2020          3        1.5          0        1.5 01-SEP-08                                                                                                                                        
+      7777         12        4.5          3          0 01-SEP-10                                                                                                                                        
+      3333          9        1.5          0        1.5 01-SEP-09                                                                                                                                        
+      4444          1          3        1.5        1.5 01-SEP-11                                                                                                                                        
+      6666         10          3        1.5        1.5 01-SEP-08 31-AUG-11                                                                                                                              
+      4444          4        1.5          0        1.5 01-SEP-08 31-AUG-10                                                                                                                              
+      1111          8          3        1.5        1.5 01-SEP-07 31-AUG-09                                                                                                                              
+      1010          9          3          0          3 01-SEP-08 31-AUG-09                                                                                                                              
+      3333          2        1.5        1.5          3 01-SEP-05 31-AUG-08                                                                                                                              
+      2222          3        1.5          0        1.5 01-SEP-06 31-AUG-07                                                                                                                              
+      1010          2        1.5        1.5          3 01-SEP-06 31-AUG-07                                                                                                                              
+
+19 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN ASIGNATURA
+  3  WHERE A='Optimizacion' AND T='GII';
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Juan                                                                                                                                                                                                    
+Jose Manuel                                                                                                                                                                                             
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN ASIGNATURA
+  3  WHERE A='Optimizacion' AND T='GII'
+  4  ORDER BY P ASC;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Jose Manuel                                                                                                                                                                                             
+Juan                                                                                                                                                                                                    
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE CAR IN
+  4  SELECT CAR
+  5  FROM AREA NATURAL JOIN DEPARTAMENTO
+  6  WHERE D = 'Matematica Fundamental'
+  7  ORDER BY P DESC;
+SELECT CAR
+*
+ERROR at line 4:
+ORA-00936: missing expression 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE CAR IN(SELECT CAR
+  4  FROM AREA NATURAL JOIN DEPARTAMENTO
+  5  WHERE D = 'Matematica Fundamental')
+  6  ORDER BY P DESC;
+
+no rows selected
+
+SQL> SELECT * FROM DEPARTAMENTO;
+
+        CD D                                                                                                                                                                                            
+---------- ------------------------------------------------------------                                                                                                                                 
+         1 Analisis Matematico                                                                                                                                                                          
+         2 Astrofisica                                                                                                                                                                                  
+         3 Estadistica, investigacion operativa y computacion                                                                                                                                           
+         4 Matematica fundamental                                                                                                                                                                       
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE CAR IN(SELECT CAR
+  4  FROM AREA NATURAL JOIN DEPARTAMENTO
+  5  WHERE D = 'Matematica Fundamental')
+  6  ORDER BY P DESC;
+
+no rows selected
+
+SQL> SELECT
+  2  S
+  3  S
+  4  ;
+
+*
+ERROR at line 4:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE CAR IN ( SELECT CAR
+  4  FROM AREA NATURA JOIN DEPARTAMENTO
+  5  WHERE D = 'Matematica fundamental')
+  6  ORDER BY P DESC;
+WHERE D = 'Matematica fundamental')
+*
+ERROR at line 5:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE CAR IN(SELECT CAR
+  4  FROM AREA NATURAL JOIN DEPARTAMENTO
+  5  WHERE D='Matematica fundamental')
+  6  ORDER BY P DESC;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Ivan                                                                                                                                                                                                    
+
+SQL> SELECT A
+  2  FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3  WHERE DNI=1010;
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Inteligencia Artificial                                                                                                                                                                                 
+Gestion de riesgos                                                                                                                                                                                      
+
+SQL> SELECT A
+  2  FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3  WHERE P='David';
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Inteligencia Artificial                                                                                                                                                                                 
+Gestion de riesgos                                                                                                                                                                                      
+
+SQL> SELECT AR
+  2  FROM AREA NATURAL JOIN DEPARTAMENTO
+  3  WHERE D='Estadistica, investigacion operativa y computacion';
+
+AR                                                                                                                                                                                                      
+------------------------------------------------------------                                                                                                                                            
+Ciencias de la computacion e inteligencia artificial                                                                                                                                                    
+Estadistica e investigacion operativa                                                                                                                                                                   
+Lenguajes y sistemas informaticos                                                                                                                                                                       
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAR IN(SELECT CAR
+  4  FROM;
+FROM
+   *
+ERROR at line 4:
+ORA-00903: invalid table name 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAS IN(SELECT CAS
+  4  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  5  WHERE CAT='CU' AND FF IS NULL);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Almacenes de datos                                                                                                                                                                                      
+Optimizacion                                                                                                                                                                                            
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAS IN(SELECT CAS
+  4  FROM PROFESOR NATURA JOIN PLAN_DOCENTE
+  5  WHERE CAT='CU');
+WHERE CAT='CU')
+*
+ERROR at line 5:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CAS IN(SELECT CAS
+  4  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  5  WHERE CAT='CU');
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Almacenes de datos                                                                                                                                                                                      
+Optimizacion                                                                                                                                                                                            
+
+SQL> SELECT A
+  2  FROM ASIGNATURA NATURAL JOIN AREA
+  3  WHERE AR IN (Lenguajes y sistemas informaticos, Ciencias de la computacion e inteligencia artificial);
+WHERE AR IN (Lenguajes y sistemas informaticos, Ciencias de la computacion e inteligencia artificial)
+                       *
+ERROR at line 3:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA NATURAL JOIN AREA
+  3  WHERE AR IN ('Lenguajes y sistemas informaticos', 'Ciencias de la computacion e inteligencia artificial');
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Gestion de riesgos                                                                                                                                                                                      
+Inteligencia Artificial                                                                                                                                                                                 
+Informatica Basica                                                                                                                                                                                      
+Mineria de datos                                                                                                                                                                                        
+Almacenes de datos                                                                                                                                                                                      
+Bases de datos                                                                                                                                                                                          
+
+6 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL AND CAS IN(SELECT CAS
+  4  FROM ASIGNATURA
+  5  WHERE T IN ('GII',MII'));
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE CAS IN(SELECT CAS
+  4  FROM ASIGNATURA
+  5  WHERE T IN ('GII','MII'))
+  6  AND FF IS NULL;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Juan                                                                                                                                                                                                    
+Carlos                                                                                                                                                                                                  
+Pedro                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Ivan                                                                                                                                                                                                    
+Angela                                                                                                                                                                                                  
+David                                                                                                                                                                                                   
+Soledad                                                                                                                                                                                                 
+Jose Manuel                                                                                                                                                                                             
+
+10 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL AND CAS IN(SELECT CAS
+  4  FROM ASIGNATURA
+  5  WHERE T IN ('GII','MII'));
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Juan                                                                                                                                                                                                    
+Carlos                                                                                                                                                                                                  
+Pedro                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Ivan                                                                                                                                                                                                    
+Angela                                                                                                                                                                                                  
+David                                                                                                                                                                                                   
+Soledad                                                                                                                                                                                                 
+Jose Manuel                                                                                                                                                                                             
+
+10 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN(SELECT DNI
+  4  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  5  WHERE FF IS NULL AND T ;
+WHERE FF IS NULL AND T 
+                      *
+ERROR at line 5:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT DNI
+  2  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  3  WHERE T IN ('GII','MII');
+
+       DNI                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      3333                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+      2222                                                                                                                                                                                              
+      2020                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      2222                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      5555                                                                                                                                                                                              
+      9999                                                                                                                                                                                              
+      3030                                                                                                                                                                                              
+      1111                                                                                                                                                                                              
+      1111                                                                                                                                                                                              
+      3333                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+
+16 rows selected.
+
+SQL> SELECT DNI
+  2  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  3  WHERE T = 'GII';
+
+       DNI                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      3333                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      5555                                                                                                                                                                                              
+      9999                                                                                                                                                                                              
+      3030                                                                                                                                                                                              
+      1111                                                                                                                                                                                              
+      1111                                                                                                                                                                                              
+      3333                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+
+12 rows selected.
+
+SQL> SELECT DNI
+  2  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  3  WHERE DNI IN(SELECT DNI;
+WHERE DNI IN(SELECT DNI
+                      *
+ERROR at line 3:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> A = SELECT DNI
+  3* WHERE DNI IN(SELECT DNI= SELECT DNI
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN(SELECT DNI
+  4  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  5  WHERE T='MII' AND DNI IN(SELECT DNI
+  6  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  7  WHERE T='GII'));
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Maria                                                                                                                                                                                                   
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN(SELECT DNI
+  4  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  5  WHERE T='MII' AND FF IS NULL AND DNI IN(SELECT DNI
+  6  FROM ASIGNATURA NATURAL JOIN PLAN_DOCENTE
+  7  WHERE T='GII' AND FF IS NULL));
+
+no rows selected
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE DNI.PROFESOR NOT IN DNI.PLAN_DOCENTE;
+WHERE DNI.PROFESOR NOT IN DNI.PLAN_DOCENTE
+                          *
+ERROR at line 3:
+ORA-00904: "DNI"."PLAN_DOCENTE": invalid identifier 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE DNI.PROFESOR NOT IN DNI.PLAN_DOCENTE;
+WHERE DNI.PROFESOR NOT IN DNI.PLAN_DOCENTE
+                          *
+ERROR at line 3:
+ORA-00904: "DNI"."PLAN_DOCENTE": invalid identifier 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE DNI.PROFESOR NOT IN (DNI.PLAN_DOCENTE);
+WHERE DNI.PROFESOR NOT IN (DNI.PLAN_DOCENTE)
+                           *
+ERROR at line 3:
+ORA-00904: "DNI"."PLAN_DOCENTE": invalid identifier 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN(SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  ;
+
+*
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NOT NULL;
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+David                                                                                                                                                                                                   
+David                                                                                                                                                                                                   
+Juan                                                                                                                                                                                                    
+Carlos                                                                                                                                                                                                  
+Pedro                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Carmen                                                                                                                                                                                                  
+
+7 rows selected.
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN(SELECT DNI
+  4  FROM PLAN DOCENTE
+  5  WHERE (FF IS NOT NULL) MINUS (SELECT DNI
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL));
+FROM PLAN DOCENTE
+     *
+ERROR at line 4:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN
+  4  (SELECT DNI
+  5  FROM PLAN DOCENTE
+  6  WHERE (FF I;
+WHERE (FF I
+          *
+ERROR at line 6:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN(SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  WHERE (FF IS NOT NULL) MINUS (SELECT DNI
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL));
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Carmen                                                                                                                                                                                                  
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE T='GII';
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Bases de datos                                                                                                                                                                                          
+Inteligencia Artificial                                                                                                                                                                                 
+Informatica Basica                                                                                                                                                                                      
+Algebra                                                                                                                                                                                                 
+Calculo                                                                                                                                                                                                 
+Optimizacion                                                                                                                                                                                            
+Gestion de riesgos                                                                                                                                                                                      
+
+7 rows selected.
+
+SQL> SELECT A NOMBRE_ASIGNATURA, AR NOMBRE_AREA
+  2  FROM ASIGNATURA NATURAL JOIN AREA;
+
+NOMBRE_ASIGNATURA                                  NOMBRE_AREA                                                                                                                                          
+-------------------------------------------------- ------------------------------------------------------------                                                                                         
+Algebra                                            Algebra                                                                                                                                              
+Analisis completo                                  Analisis matematico                                                                                                                                  
+Astronomia                                         Astronomia y astrofisica                                                                                                                             
+Gestion de riesgos                                 Ciencias de la computacion e inteligencia artificial                                                                                                 
+Inteligencia Artificial                            Ciencias de la computacion e inteligencia artificial                                                                                                 
+Ensenanza de la matematica                         Didactica de la matematica                                                                                                                           
+Optimizacion                                       Estadistica e investigacion operativa                                                                                                                
+Informatica Basica                                 Lenguajes y sistemas informaticos                                                                                                                    
+Mineria de datos                                   Lenguajes y sistemas informaticos                                                                                                                    
+Almacenes de datos                                 Lenguajes y sistemas informaticos                                                                                                                    
+Bases de datos                                     Lenguajes y sistemas informaticos                                                                                                                    
+Calculo                                            Matematica aplicada                                                                                                                                  
+
+12 rows selected.
+
+SQL> SELECT D NOMBRE_DEPARTAMENTO, AR NOMBRE_AREA
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA
+  3  ORDER BY D,AR DESC;
+
+NOMBRE_DEPARTAMENTO                                          NOMBRE_AREA                                                                                                                                
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+Analisis Matematico                                          Matematica aplicada                                                                                                                        
+Analisis Matematico                                          Didactica de la matematica                                                                                                                 
+Analisis Matematico                                          Analisis matematico                                                                                                                        
+Astrofisica                                                  Astronomia y astrofisica                                                                                                                   
+Estadistica, investigacion operativa y computacion           Lenguajes y sistemas informaticos                                                                                                          
+Estadistica, investigacion operativa y computacion           Estadistica e investigacion operativa                                                                                                      
+Estadistica, investigacion operativa y computacion           Ciencias de la computacion e inteligencia artificial                                                                                       
+Matematica fundamental                                       Algebra                                                                                                                                    
+
+8 rows selected.
+
+SQL> SELECT D NOMBRE_DEPARTAMENTO, AR NOMBRE_AREA
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA
+  3  ORDER BY D,AR;
+
+NOMBRE_DEPARTAMENTO                                          NOMBRE_AREA                                                                                                                                
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+Analisis Matematico                                          Analisis matematico                                                                                                                        
+Analisis Matematico                                          Didactica de la matematica                                                                                                                 
+Analisis Matematico                                          Matematica aplicada                                                                                                                        
+Astrofisica                                                  Astronomia y astrofisica                                                                                                                   
+Estadistica, investigacion operativa y computacion           Ciencias de la computacion e inteligencia artificial                                                                                       
+Estadistica, investigacion operativa y computacion           Estadistica e investigacion operativa                                                                                                      
+Estadistica, investigacion operativa y computacion           Lenguajes y sistemas informaticos                                                                                                          
+Matematica fundamental                                       Algebra                                                                                                                                    
+
+8 rows selected.
+
+SQL> SELECT D DEPARTAMENTO, P PROFESOR
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  3  ORDER BY D,P;
+
+DEPARTAMENTO                                                 PROFESOR                                                                                                                                   
+------------------------------------------------------------ ------------------------------------------------------------                                                                               
+Analisis Matematico                                          Angela                                                                                                                                     
+Analisis Matematico                                          Francisco                                                                                                                                  
+Analisis Matematico                                          Mario                                                                                                                                      
+Astrofisica                                                  Carmen                                                                                                                                     
+Estadistica, investigacion operativa y computacion           Carlos                                                                                                                                     
+Estadistica, investigacion operativa y computacion           David                                                                                                                                      
+Estadistica, investigacion operativa y computacion           Jose Manuel                                                                                                                                
+Estadistica, investigacion operativa y computacion           Juan                                                                                                                                       
+Estadistica, investigacion operativa y computacion           Maria                                                                                                                                      
+Estadistica, investigacion operativa y computacion           Pedro                                                                                                                                      
+Estadistica, investigacion operativa y computacion           Soledad                                                                                                                                    
+Matematica fundamental                                       Ivan                                                                                                                                       
+
+12 rows selected.
+
+SQL> SPOOL OFF

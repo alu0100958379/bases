@@ -1,0 +1,527 @@
+SQL> SELECT SYSDATE
+  2  FROM DUAL;
+
+SYSDATE                                                                                                                                                                                                 
+---------                                                                                                                                                                                               
+14-DEC-20                                                                                                                                                                                               
+
+SQL> SELECT CURRENT_TIMESTAMP
+  2  FROM DUAL;
+
+CURRENT_TIMESTAMP                                                                                                                                                                                       
+---------------------------------------------------------------------------                                                                                                                             
+14-DEC-20 05.49.17.208036 PM +00:00                                                                                                                                                                     
+
+SQL> SELECT TO_CHAR(SYSDATE, 'hh24:mi:ss')
+  2  FROM DUAL;
+
+TO_CHAR(                                                                                                                                                                                                
+--------                                                                                                                                                                                                
+17:52:24                                                                                                                                                                                                
+
+SQL> SELECT (SYSDATE - (SELECT FI
+  2  FROM PLAN_DOCENTE
+  3  WHERE CAS = 11 AND DNI = 8888))
+  4  FROM DUAL;
+
+(SYSDATE-(SELECTFIFROMPLAN_DOCENTEWHERECAS=11ANDDNI=8888))                                                                                                                                              
+----------------------------------------------------------                                                                                                                                              
+                                                4122.74616                                                                                                                                              
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  WHERE (FF IS NOT NULL AND ((FF-FI)>365)) OR DNI IN (SELECT DNI
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL AND (SELECT SYSDATE
+  8  FROM DUAL)-FI > 365));
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Juan                                                                                                                                                                                                    
+Carlos                                                                                                                                                                                                  
+Pedro                                                                                                                                                                                                   
+Maria                                                                                                                                                                                                   
+Ivan                                                                                                                                                                                                    
+Carmen                                                                                                                                                                                                  
+Mario                                                                                                                                                                                                   
+Francisco                                                                                                                                                                                               
+Angela                                                                                                                                                                                                  
+David                                                                                                                                                                                                   
+Soledad                                                                                                                                                                                                 
+Jose Manuel                                                                                                                                                                                             
+
+12 rows selected.
+
+SQL> SELECT COUNT (P)
+  2  FROM PROFESOR
+  3  WHERE CAR IN (SELECT CAR
+  4  FROM AREA
+  5  WHERE CD IN (SELECT CD
+  6  FROM DEPARTAMENTO
+  7  WHERE D='Astrofisica'));
+
+  COUNT(P)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SELECT COUNT (P)
+  2  FROM PROFESOR NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  3  WHERE D='Astrofisica';
+
+  COUNT(P)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SELECT D, COUNT(D)
+  2  FROM DEPARTAMENTO D1, PROFESOR P1
+  3  WHERE D1.CD = (SELECT CD
+  4  FROM AREA
+  5  WHERE CAR = P1.CAR);
+SELECT D, COUNT(D)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT D, COUNT(P)
+  2  FROM DEPARTAMENTO D1, PROFESOR P1
+  3  WHERE D1.CD = (SELECT CD
+  4  FROM AREA
+  5  WHERE CAR = P1.CAR);
+SELECT D, COUNT(P)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT D, COUNT (P)
+  2  FROM DEPARTAMENTO D1, PROFESOR P1
+  3  WHERE D1.CD = (SELECT CD
+  4  FROM AREA
+  5  WHERE CAR = P1.CAR);
+SELECT D, COUNT (P)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT D, COUNT (P)
+  2  FROM DEPARTAMENTO D1, PROFESOR P1
+  3  WHERE D1.CD = (SELECT CD
+  4  FROM AREA
+  5  WHERE CAR = P1.CAR)
+  6  GROUP BY D;
+
+D                                                              COUNT(P)                                                                                                                                 
+------------------------------------------------------------ ----------                                                                                                                                 
+Astrofisica                                                           1                                                                                                                                 
+Matematica fundamental                                                1                                                                                                                                 
+Analisis Matematico                                                   3                                                                                                                                 
+Estadistica, investigacion operativa y computacion                    7                                                                                                                                 
+
+SQL> SELECT D, COUNT (P)
+  2  FROM DEPARTAMENTO D1, PROFESOR P1
+  3  WHERE D1.CD = (SELECT CD
+  4  FROM AREA
+  5  WHERE CAR = P1.CAR)
+  6  GROUP BY D
+  7  ORDER BY D;
+
+D                                                              COUNT(P)                                                                                                                                 
+------------------------------------------------------------ ----------                                                                                                                                 
+Analisis Matematico                                                   3                                                                                                                                 
+Astrofisica                                                           1                                                                                                                                 
+Estadistica, investigacion operativa y computacion                    7                                                                                                                                 
+Matematica fundamental                                                1                                                                                                                                 
+
+SQL> SELECT COUNT (T)
+  2  FROM ASIGNATURA NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  3  WHERE D = 'Estadistica, investigacion operativa y computacion';
+
+  COUNT(T)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         7                                                                                                                                                                                              
+
+SQL> SELECT COUNT (P)
+  2  FROM PROFESOR NATURAL JOIN AREA
+  3  WHERE AR = 'A%';
+
+  COUNT(P)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         0                                                                                                                                                                                              
+
+SQL> SELECT COUNT (P)
+  2  FROM PROFESOR NATURAL JOIN AREA
+  3  WHERE AR LIKE 'A%';
+
+  COUNT(P)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+
+SQL> SELECT T, COUNT (CAS)
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T;
+
+T    COUNT(CAS)                                                                                                                                                                                         
+---- ----------                                                                                                                                                                                         
+GF            1                                                                                                                                                                                         
+GII           7                                                                                                                                                                                         
+GM            2                                                                                                                                                                                         
+MII           2                                                                                                                                                                                         
+
+SQL> SELECT *
+  2  FROM ASIGNATURA;
+
+       CAS A                                                  T           CUR        CAR         CT         CP         CL                                                                               
+---------- -------------------------------------------------- ---- ---------- ---------- ---------- ---------- ----------                                                                               
+         1 Bases de datos                                     GII           3          7          3        1.5        1.5                                                                               
+         2 Inteligencia Artificial                            GII           3          4        1.5        1.5          3                                                                               
+         3 Almacenes de datos                                 MII           1          7        1.5          0        1.5                                                                               
+         4 Mineria de datos                                   MII           1          7        1.5          0        1.5                                                                               
+         5 Informatica Basica                                 GII           1          7          3        1.5        1.5                                                                               
+         6 Algebra                                            GII           1          1          3          3          0                                                                               
+         7 Calculo                                            GII           1          8          3          3          0                                                                               
+         8 Optimizacion                                       GII           1          6          3        1.5        1.5                                                                               
+         9 Gestion de riesgos                                 GII           3          4          3          0          3                                                                               
+        10 Astronomia                              SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT IN (SELECT MAX(UNIQUE CT)
+  4  FROM ASIGNATURA;
+FROM ASIGNATURA
+              *
+ERROR at line 4:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT IN (SELECT MAX(UNIQUE CT)
+  4  FROM ASIGNATURA);
+
+A                                                                               
+--------------------------------------------------                              
+Ensenanza de la matematica                                                      
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT IN(SELECT MIN(UNIQUE CT)
+  4  FROM ASIGNATURA);
+
+A                                                                               
+--------------------------------------------------                              
+Inteligencia Artificial                                                         
+Almacenes de datos                                                              
+Mineria de datos                                                                
+
+SQL> SET PAGESIZE 180
+SQL> SET LINESIZE 200
+SQL> SELECT A, CT+CP+CL CREDITOS_TOTALES
+  2  FROM ASIGNATURA;
+
+A                                                  CREDITOS_TOTALES                                                                                                                                     
+-------------------------------------------------- ----------------                                                                                                                                     
+Bases de datos                                                    6                                                                                                                                     
+Inteligencia Artificial                                           6                                                                                                                                     
+Almacenes de datos                                                3                                                                                                                                     
+Mineria de datos                                                  3                                                                                                                                     
+Informatica Basica                                                6                                                                                                                                     
+Algebra                                                           6                                                                                                                                     
+Calculo                                                           6                                                                                                                                     
+Optimizacion                                                      6                                                                                                                                     
+Gestion de riesgos                                                6                                                                                                                                     
+Astronomia                                                        6                                                                                                                                     
+Ensenanza de la matematica                                        6                                                                                                                                     
+Analisis completo                                               7.5                                                                                                                                     
+
+12 rows selected.
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT+CP+CL IN (SELECT MAX(CT+CP+CL)
+  4  FROM ASIGNATURA);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Analisis completo                                                                                                                                                                                       
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT+CP+CL IN (SELECT MAX(CT+CP+CL)
+  4  ;
+
+*
+ERROR at line 4:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT+CP+CL IN (SELECT MIN(CT+CP+CL)
+  4  FROM ASIGNATURA);
+
+A                                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+Almacenes de datos                                                                                                                                                                                      
+Mineria de datos                                                                                                                                                                                        
+
+SQL> SELECT AR
+  2  FROM AREA
+  3  WHERE CAR IN (SELECT CAR
+  4  FROM ASIGNATURA
+  5  WHERE CT+CP+CL IN (SELECT MAX(UNIQUE CT+CP+CL)
+  6  FROM ASIGNATURA));
+
+AR                                                                                                                                                                                                      
+------------------------------------------------------------                                                                                                                                            
+Analisis matematico                                                                                                                                                                                     
+
+SQL> SELECT COUNT (A)
+  2  FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3  WHERE DNI = 1111;
+
+  COUNT(A)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+
+SQL> SELECT CT+CP+CL
+  2  FROM ASIGNATURA NATURAL JOIN PROFESOR
+  3  WHERE DNI = 1111;
+
+  CT+CP+CL                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         6                                                                                                                                                                                              
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4  FROM PLAN_DOCENTE;
+FROM PLAN_DOCENTE
+                *
+ERROR at line 4:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  WHERE DNI IN (SELECT DNI
+  4  FROM PLAN_DOCENTE
+  5  WHERE CTA+CPA+CLA IN (SELECT MAX(UNIQUE CTA+CPA+CLA)
+  6  FROM PLAN_DOCENTE));
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Mario                                                                                                                                                                                                   
+
+SQL> SELECT DNI, CTA+CPA+CLA
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY DNI;
+SELECT DNI, CTA+CPA+CLA
+            *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DNI
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY DNI;
+
+       DNI                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+      1010                                                                                                                                                                                              
+      1111                                                                                                                                                                                              
+      2020                                                                                                                                                                                              
+      2222                                                                                                                                                                                              
+      3030                                                                                                                                                                                              
+      3333                                                                                                                                                                                              
+      4444                                                                                                                                                                                              
+      5555                                                                                                                                                                                              
+      6666                                                                                                                                                                                              
+      7777                                                                                                                                                                                              
+      8888                                                                                                                                                                                              
+      9999                                                                                                                                                                                              
+
+12 rows selected.
+
+SQL> SELECT DNI, CTA+CPA+CLA TOT
+  2  FROM PLAN_DOCENTE;
+
+       DNI        TOT                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+      2222          3                                                                                                                                                                                   
+      1010          6                                                                                                                                                                                   
+      1010          3                                                                                                                                                                                   
+      9999          6                                                                                                                                                                                   
+      5555          6                                                                                                                                                                                   
+      6666          6                                                                                                                                                                                   
+      8888          6                                                                                                                                                                                   
+      2020          3                                                                                                                                                                                   
+      7777        7.5                                                                                                                                                                                   
+      3333          3                                                                                                                                                                                   
+      4444          6                                                                                                                                                                                   
+      4444          3                                                                                                                                                                                   
+      4444          3                                                                                                                                                                                   
+      1111          6                                                                                                                                                                                   
+      1111          3                                                                                                                                                                                   
+      3030          3                                                                                                                                                                                   
+      2222          3                                                                                                                                                                                   
+      1010          6                                                                                                                                                                                   
+      3333          6                                                                                                                                                                                   
+
+19 rows selected.
+
+SQL> SELECT DNI, CTA+CPA+CLA TOT
+  2  FROM PLAN_DOCENTE
+  3  GROUP BY DNI;
+SELECT DNI, CTA+CPA+CLA TOT
+            *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR NATURAL JOIN PLAN_DOCENTE
+  3  WHERE FF IS NULL AND CTA+CPA+CLA IN (SELECT MAX(UNIQUE CTA+CPA+CLA)
+  4  FROM PLAN_DOCENTE);
+
+P                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Mario                                                                                                                                                                                                   
+
+SQL> SELECT COUNT (*)
+  2  FROM ASIGNATURA
+  3  ORDER BY CAR;
+
+  COUNT(*)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        12                                                                                                                                                                                              
+
+SQL> SELECT CAR
+  2  FROM ASIGNATURA
+  3  ORDER BY CAR;
+
+       CAR                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+         2                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         4                                                                                                                                                                                              
+         4                                                                                                                                                                                              
+         5                                                                                                                                                                                              
+         6                                                                                                                                                                                              
+         7                                                                                                                                                                                              
+         7                                                                                                                                                                                              
+         7                                                                                                                                                                                              
+         7                                                                                                                                                                                              
+         8                                                                                                                                                                                              
+
+12 rows selected.
+
+SQL> SELECT AVG (COUNT(*))
+  2  FROM ASIGNATURA
+  3  GROUP BY CAR;
+
+AVG(COUNT(*))                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+          1.5                                                                                                                                                                                           
+
+SQL> SELECT AVG (COUNT(*))
+  2  FROM PROFESOR NATURAL JOIN AREA
+  3  GROUP BY CD;
+
+AVG(COUNT(*))                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+            3                                                                                                                                                                                           
+
+SQL> SELECT AR
+  2  FROM AREA
+  3  WHERE CAR = (SELECT CAR
+  4  FROM ASIGNATURA NATURAL JOIN AREA
+  5  GROUP BY CAR
+  6  HAVING COUNT(A) > 3);
+
+AR                                                                                                                                                                                                      
+------------------------------------------------------------                                                                                                                                            
+Lenguajes y sistemas informaticos                                                                                                                                                                       
+
+SQL> SELECT AT
+  2  ;
+
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT AR
+  2  FROM AREA
+  3  WHERE CAR = (SELECT CAR
+  4  FROM ASIGNATURA NATURAL JOIN AREA
+  5  GROUP BY CAR
+  6  HAVING COUNT(A) > 6);
+
+no rows selected
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  WHERE CD IN (SELECT CD
+  4  FROM AREA NATURAL JOIN PROFESOR
+  5  GROUP BY CD
+  6  HAVING COUNT(P);
+HAVING COUNT(P)
+              *
+ERROR at line 6:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT CD
+  2  FROM AREA NATURAL JOIN PROFESOR
+  3  ORDER BY CD;
+
+        CD                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+         1                                                                                                                                                                                              
+         2                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         3                                                                                                                                                                                              
+         4                                                                                                                                                                                              
+
+12 rows selected.
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  WHERE CD IN (SELECT CD
+  4  FROM AREA NATURAL JOIN PROFESOR
+  5  GROUP BY CD
+  6  HAVING COUNT (P) = (SELECT MIN(COUNT(P)
+  7  FROM AREA NATURAL JOIN PROFESOR
+  8  GROUP BY CD));
+FROM AREA NATURAL JOIN PROFESOR
+*
+ERROR at line 7:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  WHERE CD IN (SELECT CD
+  4  FROM AREA NATURAL JOIN PROFESOR
+  5  GROUP BY CD
+  6  HAVING COUNT (P) = (SELECT MIN(COUNT(P))
+  7  FROM AREA NATURAL JOIN PROFESOR
+  8  GROUP BY CD));
+
+D                                                                                                                                                                                                       
+------------------------------------------------------------                                                                                                                                            
+Astrofisica                                                                                                                                                                                             
+Matematica fundamental                                                                                                                                                                                  
+
+SQL> SPOOL OFF
