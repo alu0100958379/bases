@@ -502,3 +502,298 @@ ORA-12162: TNS:net service name is incorrectly specified
 
 
 SQL> SPOOL OFF
+SQL> CONNECT alumno @ORCLPDB1
+Connected.
+SQL> SELECT *
+  2  FROM alu0100958379.DEPARTAMENTO;
+
+        CD D                                                                                                                                                                                            
+---------- ------------------------------------------------------------                                                                                                                                 
+         1 Analisis Matematico                                                                                                                                                                          
+         2 Astrofisica                                                                                                                                                                                  
+         3 Estadistica, investigacion operativa y computacion                                                                                                                                           
+         4 Matematica fundamental                                                                                                                                                                       
+
+SQL> SELECT *
+  2  FROM alu0100958379.PROFESOR;
+FROM alu0100958379.PROFESOR
+                   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT *
+  2  FROM alu0100958379.PROFESORES;
+FROM alu0100958379.PROFESORES
+                   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> EXIT
+SQL> SET PAGESIZE 180
+SQL> SET LINESIZE 200
+SQL> INSERT INTO alu0100958379.DEPARTAMENTO
+  2  VALUES(5,'Economia');
+
+1 row created.
+
+SQL> 
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                                                                                                                                            
+---------- ------------------------------------------------------------                                                                                                                                 
+         5 Economia                                                                                                                                                                                     
+         1 Analisis Matematico                                                                                                                                                                          
+         2 Astrofisica                                                                                                                                                                                  
+         3 Estadistica, investigacion operativa y computacion                                                                                                                                           
+         4 Matematica fundamental                                                                                                                                                                       
+
+SQL> DELETE
+  2  FROM DEPARTAMENTO
+  3  WHERE CD=5;
+
+1 row deleted.
+
+SQL> SELECT *
+  2  FROM DEPARTAMENTO
+  3  ;
+
+        CD D                                                                                                                                                                                            
+---------- ------------------------------------------------------------                                                                                                                                 
+         1 Analisis Matematico                                                                                                                                                                          
+         2 Astrofisica                                                                                                                                                                                  
+         3 Estadistica, investigacion operativa y computacion                                                                                                                                           
+         4 Matematica fundamental                                                                                                                                                                       
+
+SQL> CONNECT alumno @ORCLPDB1
+Connected.
+SQL> INSERT INTO alu0100958379.DEPARTAMENTO
+  2  VALUES(5,'Economia');
+
+1 row created.
+
+SQL> UPDATE alu0100958379.DEPARTAMENTO
+  2  SET D='Economia aplicada'
+  3  WHERE CD=5;
+
+1 row updated.
+
+SQL> SELECT *
+  2  FROM TITULACION;
+FROM TITULACION
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> UPDATE alu0100958379.TITULACION
+  2  SET FAC='ETSII'
+  3  WHERE T='GII';
+
+1 row updated.
+
+SQL> DELETE
+  2  FROM alu0100958379.TITULACION
+  3  WHERE T='GII';
+FROM alu0100958379.TITULACION
+                   *
+ERROR at line 2:
+ORA-01031: insufficient privileges 
+
+
+SQL> SELECT *
+  2  FROM TITULACION;
+FROM TITULACION
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT *
+  2  FROM alu0100958379.TITULACION;
+
+T     FAC                                                                                                                                                                                               
+----- ------------------------------------------------------------                                                                                                                                      
+GF    Facultad de Informatica                                                                                                                                                                           
+GM    Facultad de Biologia                                                                                                                                                                              
+GII   ETSII                                                                                                                                                                                             
+MII   Facultad de Biologia                                                                                                                                                                              
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> ROLLBACK alu0100958379;
+ROLLBACK alu0100958379
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK 
+
+
+SQL> CREATE VIEW VISTA3
+  2  AS (SELECT A,CAR
+  3  FROM ASIGNATURA);
+FROM ASIGNATURA)
+     *
+ERROR at line 3:
+ORA-00942: table or view does not exist 
+
+
+SQL> CREATE VIEW VISTA3
+  2  AS (SELECT A, CAR
+  3  FROM alu0100958379.ASIGNATURA);
+
+View created.
+
+SQL> SELECT *
+  2  FROM VISTA3;
+
+A                                                         CAR                                                                                                                                           
+-------------------------------------------------- ----------                                                                                                                                           
+Estadistica                                                 6                                                                                                                                           
+Bases de datos                                              7                                                                                                                                           
+Inteligencia Artificial                                     4                                                                                                                                           
+Almacenes de datos                                          7                                                                                                                                           
+Mineria de datos                                            7                                                                                                                                           
+Informatica Basica                                          7                                                                                                                                           
+Algebra                                                     1                                                                                                                                           
+Calculo                                                     8                                                                                                                                           
+Optimizacion                                                6                                                                                                                                           
+Gestion de riesgos                                          4                                                                                                                                           
+Astronomia                                                  3                                                                                                                                           
+Ensenanza de la matematica                                  5                                                                                                                                           
+Analisis completo                                           2                                                                                                                                           
+
+13 rows selected.
+
+SQL> DROP VISTA3;
+DROP VISTA3
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option 
+
+
+SQL> DELETE VISTA3;
+DELETE VISTA3
+       *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> DROP VIEW VISTA3;
+
+View dropped.
+
+SQL> DROP TABLE ASIGNATURA;
+DROP TABLE ASIGNATURA
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE alu0100958379.ASIGNATURA;
+DROP TABLE alu0100958379.ASIGNATURA
+                         *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> CONNECT alu0100958379 @ORCLPDB1
+Connected.
+SQL> SELECT *
+  2  FROM DEPARTAMENTO;
+
+        CD D                                                                                                                                                                                            
+---------- ------------------------------------------------------------                                                                                                                                 
+         1 Analisis Matematico                                                                                                                                                                          
+         2 Astrofisica                                                                                                                                                                                  
+         3 Estadistica, investigacion operativa y computacion                                                                                                                                           
+         4 Matematica fundamental                                                                                                                                                                       
+
+SQL> REVOKE ALL ON alu0100958379.* from alumno@ORCLPDB1;
+REVOKE ALL ON alu0100958379.* from alumno@ORCLPDB1
+                            *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> REVOKE UPDATE
+  2  ON alu0100958379.DEPARTAMENTO
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE UPDATE
+  2  ON alu0100958379.AREA
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE UPDATE
+  2  ON alu0100958379.ASIGNATURA
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE UPDATE
+  2  ON alu0100958379.TITULACION
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE INSERT
+  2  ON alu0100958379.DEPARTAMENTO
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE INSERT
+  2  ON alu0100958379.AREA
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE UPDATE
+  2  ON alu0100958379.DEPARTAMENTO
+  3  FROM alumno;
+REVOKE UPDATE
+*
+ERROR at line 1:
+ORA-01927: cannot REVOKE privileges you did not grant 
+
+
+SQL> ON alu0100958379.DEPARTAMENTOREVOKE UPDATE
+SP2-0734: unknown command beginning "ON alu0100..." - rest of line ignored.
+SQL> REVOKE UPDATE
+  2  ON alu0100958379.AREA
+  3  FROM alumno;
+REVOKE UPDATE
+*
+ERROR at line 1:
+ORA-01927: cannot REVOKE privileges you did not grant 
+
+
+SQL> REVOKE DELETE
+  2  ON alu0100958379.DEPARTAMENTO
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE DELETE
+  2  ON alu0100958379.AREA
+  3  FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE UPDATE
+  2  ON alu0100958379.ASIGNATURA
+  3  FROM alumno;
+REVOKE UPDATE
+*
+ERROR at line 1:
+ORA-01927: cannot REVOKE privileges you did not grant 
+
+
+SQL> exit
